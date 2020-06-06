@@ -6,8 +6,6 @@
 let playerCount = 0;
 let currentPlayer = 0;
 let players = [];
-players[0] = new Player(1);
-players[1] = new Player(2);
 
 /*----- cached element references -----*/
 let header = document.getElementById("header");
@@ -40,14 +38,20 @@ function saveDice(evt) {
   players[currentPlayer].dice.push(parseInt(evt.target.innerHTML));
   if (players[currentPlayer].dice.length == 6) {
     players[currentPlayer].isDone();
+    currentPlayer++;
   }
   evt.target.remove();
   held.innerHTML = players[currentPlayer].dice;
 }
 
 function selectPlayer(evt) {
-  alert(evt.target.innerHTML);
   playerCount = evt.target.innerHTML;
+  //Create Players
+  for (let i=0; i<playerCount; i++){
+    players.push(new Player(i));
+  }
+  header.style.display = 'none';
+  roll.style.display = 'block';
 }
 
 init();
