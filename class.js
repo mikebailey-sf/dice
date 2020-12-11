@@ -30,7 +30,7 @@ class Player {
   }
 
   total(){
-    return this.dice.reduce((a,b) => a+b);
+    return this.dice.reduce((a,b) => a+b) - 5;
   }
 
   isQualified() {

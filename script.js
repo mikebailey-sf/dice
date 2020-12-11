@@ -11,6 +11,7 @@ let players = [];
 let header = document.getElementById("header");
 let mat = document.getElementById("mat");
 let held = document.getElementById("held");
+let playerPrompt = document.getElementById("player-prompt");
 let diceButton = document.getElementsByClassName("diceButton");
 let selectPlayers = document.getElementsByClassName("selectPlayers");
 
@@ -27,7 +28,7 @@ function init() {
 
 function playerRoll(evt) {
   let roll = players[currentPlayer].roll();
-  let rollHtml = roll.map(x => "<button class='diceButton'>" + x + "</button>");
+  let rollHtml = roll.map(x => "<button class='diceButton'>" + x + "</button>").join('');
   mat.innerHTML = rollHtml;
   let rolledDice = document.getElementsByClassName("diceButton");
   for (var i = 0; i < rolledDice.length; i++) {
@@ -39,12 +40,20 @@ function saveDice(evt) {
   players[currentPlayer].taken = true;
   players[currentPlayer].dice.push(parseInt(evt.target.innerHTML));
   if (players[currentPlayer].dice.length == 6) {
-    //players[currentPlayer].isDone();
     document.getElementById(`score${currentPlayer}`).innerHTML = players[currentPlayer].isDone();
+    //document.getElementById(`score${currentPlayer}`).insertAdjacentHTML('beforeend', `: ${players[currentPlayer].dice}`);
     currentPlayer++;
+    if (currentPlayer >= players.length) {
+      playerPrompt.innerHTML = 'Game Over, Play Again?'
+      roll.style.display = 'none';
+      mat.style.display = 'none';
+      held.style.display = 'none';
+    } else {
+      playerPrompt.innerHTML = `Player ${currentPlayer + 1} Ready to Roll!`;
+    }
   }
   evt.target.remove();
-  held.innerHTML = players[currentPlayer].dice;
+  held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
 }
 
 function selectPlayer(evt) {
@@ -58,6 +67,7 @@ function selectPlayer(evt) {
   }
   header.style.display = 'none';
   roll.style.display = 'block';
+  playerPrompt.innerHTML = 'Player 1 Ready to Roll!';
 }
 
 init();
