@@ -21,7 +21,9 @@ for (var i = 0; i < selectPlayers.length; i++) {
 }
 
 /*----- functions -----*/
-function init() {}
+function init() {
+
+}
 
 function playerRoll(evt) {
   let roll = players[currentPlayer].roll();
@@ -37,7 +39,8 @@ function saveDice(evt) {
   players[currentPlayer].taken = true;
   players[currentPlayer].dice.push(parseInt(evt.target.innerHTML));
   if (players[currentPlayer].dice.length == 6) {
-    players[currentPlayer].isDone();
+    //players[currentPlayer].isDone();
+    document.getElementById(`score${currentPlayer}`).innerHTML = players[currentPlayer].isDone();
     currentPlayer++;
   }
   evt.target.remove();
@@ -49,6 +52,9 @@ function selectPlayer(evt) {
   //Create Players
   for (let i=0; i<playerCount; i++){
     players.push(new Player(i));
+  }
+  for (let i=0; i<playerCount; i++){
+    scoreboard.insertAdjacentHTML('beforeend', `<p>Player ${i+1}: <span id="score${i}">Waiting...</span></p>`);
   }
   header.style.display = 'none';
   roll.style.display = 'block';

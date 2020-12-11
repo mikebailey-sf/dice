@@ -2,7 +2,6 @@ class Player {
   constructor(number) {
     this.number = number;
     this.dice = [];
-    this.total = 0;
     this.qualified = false;
     this.taken = true;
   }
@@ -30,6 +29,10 @@ class Player {
     this.taken = true;
   }
 
+  total(){
+    return this.dice.reduce((a,b) => a+b);
+  }
+
   isQualified() {
     if (this.dice.includes(1) && this.dice.includes(4)) {
       return true;
@@ -40,9 +43,9 @@ class Player {
 
   isDone(){
     if (this.isQualified()) {
-      alert ('good');
+      return this.total();
     } else {
-      alert ('bad');
+      return ('Not Qualified');
     }
   }
 }
