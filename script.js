@@ -1,9 +1,7 @@
 /*----- app's state (variables) -----*/
-
 let playerCount = 0;
 let currentPlayer = 0;
 let players = [];
-
 
 /*----- cached element references -----*/
 let header = document.getElementById("header");
