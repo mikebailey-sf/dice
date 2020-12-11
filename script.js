@@ -25,11 +25,14 @@ function init() {
 }
 
 function playerRoll(evt) {
-  let roll = players[currentPlayer].roll();
   if (roll==0){
     warning.style.visibility = "visible";
-  } else {
-    let rollHtml = roll.map(x => "<button class='diceButton'>" + x + "</button>").join('');
+  } else if (players[currentPlayer].dice.length == 5){
+    topsOrBottoms();
+  }
+  else {
+    let roll = players[currentPlayer].roll();
+    let rollHtml = roll.map(x => `<button value=${x} class='diceButton'>${x}</button>`).join('');
     mat.innerHTML = rollHtml;
     let rolledDice = document.getElementsByClassName("diceButton");
     for (var i = 0; i < rolledDice.length; i++) {
@@ -38,12 +41,21 @@ function playerRoll(evt) {
   }
 }
 
+function topsOrBottoms(){
+  let top = players[currentPlayer].roll();
+  let bottom = Math.abs(top - 7);
+  let rollHtml = `<button value=${top} id='topDice'>Tops</button><button value=${bottom} id='bottomDice'>Bottoms</button>`;
+  mat.innerHTML = rollHtml;
+  document.getElementById("topDice").addEventListener("click", saveDice);
+  document.getElementById("bottomDice").addEventListener("click", saveDice);
+}
+
 function saveDice(evt) {
   warning.style.visibility = "hidden";
   players[currentPlayer].taken = true;
-  players[currentPlayer].dice.push(parseInt(evt.target.innerHTML));
+  players[currentPlayer].dice.push(parseInt(evt.target.value));
   if (players[currentPlayer].dice.length == 6) {
-    document.getElementById(`score${currentPlayer}`).innerHTML = players[currentPlayer].isDone();
+    document.getElementById(`score${currentPlayer}`).innerHTML = `${players[currentPlayer].isDone()}<br>${players[currentPlayer].dice.join(' * ')}`;
     //document.getElementById(`score${currentPlayer}`).insertAdjacentHTML('beforeend', `: ${players[currentPlayer].dice}`);
     currentPlayer++;
     if (currentPlayer >= players.length) {
@@ -57,6 +69,8 @@ function saveDice(evt) {
     }
   }
   evt.target.remove();
+  if (document.getElementById("topDice")) {document.getElementById("topDice").remove()}
+  if (document.getElementById("bottomDice")) {document.getElementById("bottomDice").remove()}
   if(currentPlayer < players.length) {
     held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
   }
@@ -79,6 +93,20 @@ function selectPlayer(evt) {
   //header.style.visibility = 'hidden';
   roll.style.display = 'block';
   playerPrompt.innerHTML = 'Player 1 Ready to Roll!';
+}
+
+function winner(players){
+  let highest = 0;
+  players.forEach(function(player){
+    if (player.total() > highest) {
+      highest = player.total();
+    }
+  });
+  if (highest) {
+    return highest;
+  } else {
+    return "No one qualified";
+  }
 }
 
 init();
