@@ -48,17 +48,24 @@ function saveDice(evt) {
       roll.style.display = 'none';
       mat.style.display = 'none';
       held.style.display = 'none';
+      header.style.display = "block";
     } else {
       playerPrompt.innerHTML = `Player ${currentPlayer + 1} Ready to Roll!`;
     }
   }
   evt.target.remove();
-  held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
+  if(currentPlayer < players.length) {
+    held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
+  }
 }
 
 function selectPlayer(evt) {
   playerCount = evt.target.innerHTML;
-  //Create Players
+  mat.innerHTML = "";
+  mat.style.display = 'block';
+  scoreboard.innerHTML = "";
+  currentPlayer = 0;
+  players = [];
   for (let i=0; i<playerCount; i++){
     players.push(new Player(i));
   }
@@ -66,6 +73,7 @@ function selectPlayer(evt) {
     scoreboard.insertAdjacentHTML('beforeend', `<p>Player ${i+1}: <span id="score${i}">Waiting...</span></p>`);
   }
   header.style.display = 'none';
+  //header.style.visibility = 'hidden';
   roll.style.display = 'block';
   playerPrompt.innerHTML = 'Player 1 Ready to Roll!';
 }
