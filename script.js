@@ -4,6 +4,7 @@ let playerCount = 0;
 let currentPlayer = 0;
 let players = [];
 
+
 /*----- cached element references -----*/
 let header = document.getElementById("header");
 let roller = document.getElementById("roller");
@@ -25,7 +26,7 @@ function init() {
 }
 
 function playerRoll(evt) {
-  if (roll==0){
+  if (!players[currentPlayer].taken){
     warning.style.visibility = "visible";
   } else if (players[currentPlayer].dice.length == 5){
     topsOrBottoms();
@@ -59,7 +60,12 @@ function saveDice(evt) {
     //document.getElementById(`score${currentPlayer}`).insertAdjacentHTML('beforeend', `: ${players[currentPlayer].dice}`);
     currentPlayer++;
     if (currentPlayer >= players.length) {
-      playerPrompt.innerHTML = 'Game Over, Play Again?'
+      if (winner(players)){
+        playerPrompt.innerHTML = `Player ${winner(players)} Wins!!`;
+      } else {
+        playerPrompt.innerHTML = 'No one qualified...';
+      }
+      playerPrompt.insertAdjacentHTML('beforeend','Game Over, Play Again?');
       roll.style.display = 'none';
       mat.style.display = 'none';
       held.style.display = 'none';
@@ -97,15 +103,19 @@ function selectPlayer(evt) {
 
 function winner(players){
   let highest = 0;
+  let current = 0;
+  let count = 0;
   players.forEach(function(player){
-    if (player.total() > highest) {
+    count++;
+    if (player.total() > highest && player.isQualified()) {
       highest = player.total();
+      current = count;
     }
   });
-  if (highest) {
-    return highest;
+  if (current) {
+    return current;
   } else {
-    return "No one qualified";
+    return false;
   }
 }
 
