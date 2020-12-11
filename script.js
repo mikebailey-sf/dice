@@ -17,6 +17,8 @@ document.getElementById("roll").addEventListener("click", playerRoll);
 for (var i = 0; i < selectPlayers.length; i++) {
   selectPlayers[i].addEventListener("click", selectPlayer);
 }
+//document.getElementById('again').addEventListener('click', selectPlayer);
+
 
 /*----- functions -----*/
 function init() {
@@ -49,6 +51,23 @@ function topsOrBottoms(){
   document.getElementById("bottomDice").addEventListener("click", saveDice);
 }
 
+function newRound(){
+  if (winner(players)){
+    playerPrompt.innerHTML = `Player ${winner(players)[0]} Wins with ${winner(players)[1]}!!<br>`;
+  } else {
+    playerPrompt.innerHTML = 'No one qualified...';
+  }
+  playerPrompt.insertAdjacentHTML('beforeend','Game Over, Play Again?');
+  let again = `<br><button value='again' id='again'>Play Again</button>`;
+  playerPrompt.insertAdjacentHTML('beforeend', again);
+  document.getElementById('again').addEventListener('click', selectPlayer);
+  //again.style.display = 'block';
+  roll.style.display = 'none';
+  mat.style.display = 'none';
+  held.style.display = 'none';
+  //header.style.display = "block";
+}
+
 function saveDice(evt) {
   warning.style.visibility = "hidden";
   players[currentPlayer].taken = true;
@@ -57,17 +76,9 @@ function saveDice(evt) {
     document.getElementById(`score${currentPlayer}`).innerHTML = `${players[currentPlayer].isDone()}<br>${players[currentPlayer].dice.join(' * ')}`;
     //document.getElementById(`score${currentPlayer}`).insertAdjacentHTML('beforeend', `: ${players[currentPlayer].dice}`);
     currentPlayer++;
+    //If round is over
     if (currentPlayer >= players.length) {
-      if (winner(players)){
-        playerPrompt.innerHTML = `Player ${winner(players)} Wins!!`;
-      } else {
-        playerPrompt.innerHTML = 'No one qualified...';
-      }
-      playerPrompt.insertAdjacentHTML('beforeend','Game Over, Play Again?');
-      roll.style.display = 'none';
-      mat.style.display = 'none';
-      held.style.display = 'none';
-      header.style.display = "block";
+      newRound();
     } else {
       playerPrompt.innerHTML = `Player ${currentPlayer + 1} Ready to Roll!`;
     }
@@ -81,7 +92,9 @@ function saveDice(evt) {
 }
 
 function selectPlayer(evt) {
-  playerCount = evt.target.innerHTML;
+  if (!playerCount) {
+    playerCount = evt.target.innerHTML;
+  }
   mat.innerHTML = "";
   mat.style.display = 'block';
   scoreboard.innerHTML = "";
@@ -111,7 +124,7 @@ function winner(players){
     }
   });
   if (current) {
-    return current;
+    return [current, highest];
   } else {
     return false;
   }
