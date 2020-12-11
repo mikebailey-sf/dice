@@ -12,7 +12,6 @@ class Player {
 
   roll() {
     if (!this.taken) {
-      alert("Need to keep a dice");
       return 0;
     }
     this.taken = false;

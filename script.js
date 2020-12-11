@@ -1,6 +1,3 @@
-
-/*----- constants -----*/
-
 /*----- app's state (variables) -----*/
 
 let playerCount = 0;
@@ -9,6 +6,7 @@ let players = [];
 
 /*----- cached element references -----*/
 let header = document.getElementById("header");
+let roller = document.getElementById("roller");
 let mat = document.getElementById("mat");
 let held = document.getElementById("held");
 let playerPrompt = document.getElementById("player-prompt");
@@ -23,20 +21,25 @@ for (var i = 0; i < selectPlayers.length; i++) {
 
 /*----- functions -----*/
 function init() {
-
+  warning.style.visibility = "hidden";
 }
 
 function playerRoll(evt) {
   let roll = players[currentPlayer].roll();
-  let rollHtml = roll.map(x => "<button class='diceButton'>" + x + "</button>").join('');
-  mat.innerHTML = rollHtml;
-  let rolledDice = document.getElementsByClassName("diceButton");
-  for (var i = 0; i < rolledDice.length; i++) {
-    rolledDice[i].addEventListener("click", saveDice);
+  if (roll==0){
+    warning.style.visibility = "visible";
+  } else {
+    let rollHtml = roll.map(x => "<button class='diceButton'>" + x + "</button>").join('');
+    mat.innerHTML = rollHtml;
+    let rolledDice = document.getElementsByClassName("diceButton");
+    for (var i = 0; i < rolledDice.length; i++) {
+      rolledDice[i].addEventListener("click", saveDice);
+    }
   }
 }
 
 function saveDice(evt) {
+  warning.style.visibility = "hidden";
   players[currentPlayer].taken = true;
   players[currentPlayer].dice.push(parseInt(evt.target.innerHTML));
   if (players[currentPlayer].dice.length == 6) {
