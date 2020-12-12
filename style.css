@@ -1,3 +1,8 @@
+#wrapper {
+  margin: 0 auto;
+  width: 80%; 
+}
+
 #roll {
   display: none;
 }
@@ -7,5 +12,9 @@
   border-bottom: 1px solid black;
   padding-bottom: 15px;
   margin-bottom: 5px;
+}
+
+#banner, #header, #instruction {
+  text-align: center;
 }
 

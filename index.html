@@ -7,24 +7,29 @@
   </head>
 
   <body>    
-    <div id="banner">1-4-24</div>
-    <div id="player-prompt"></div>
-    <div id="header">
-      <h2 class="instruction"># of Players</h2>
-      <button class="selectPlayers" id="twoPlayer">2</button>
-      <button class="selectPlayers" id="threePlayer">3</button>
-      <button class="selectPlayers" id="fourPlayer">4</button>
-      <button class="selectPlayers" id="fourPlayer">5</button>
-    </div>
-    <div id="mat"></div>
-    <div id="held"></div>
-    <div id="roller">
-      <!--<button id="again">Play Again?</button>-->
-      <button id="roll">ROLL</button> 
-      <span id="warning"> You need to keep one of the dice.</span>
-    </div>
-    <div id="scoreboard">
-      
+    <div id="wrapper">
+      <div id="banner">1-4-24</div>
+      <div id="player-prompt"></div>
+      <div id="header">
+        <h2 class="instruction"># of Players</h2>
+        <button class="selectPlayers" id="twoPlayer">2</button>
+        <button class="selectPlayers" id="threePlayer">3</button>
+        <button class="selectPlayers" id="fourPlayer">4</button>
+        <button class="selectPlayers" id="fivePlayer">5</button>
+      </div>
+      <div id="mat"></div>
+      <div id="roller">
+        <!--<button id="again">Play Again?</button>-->
+        <button id="roll">ROLL</button> 
+        <!--<span id="warning"> You need to keep one of the dice.</span>-->
+      </div>
+
+      <table id="scores">
+        <tr>
+          <th>Player</th>
+          <th>Dice</th>
+        </tr>
+      </table>
     </div>
     <script defer src="class.js"></script>
     <script defer src="script.js"></script>
