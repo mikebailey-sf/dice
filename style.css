@@ -1,6 +1,16 @@
-#wrapper {
+#wrapper, #scores {
   margin: 0 auto;
   width: 80%; 
+  text-align: center;
+}
+
+#mat {
+  height: 40px;
+}
+
+.center {
+  margin: 0 auto;
+  text-align: center;
 }
 
 #roll {
@@ -14,7 +24,7 @@
   margin-bottom: 5px;
 }
 
-#banner, #header, #instruction {
+#banner, #header, #instruction, td {
   text-align: center;
 }
 

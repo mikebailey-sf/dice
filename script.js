@@ -62,7 +62,7 @@ function newRound(){
   document.getElementById('again').addEventListener('click', selectPlayer);
   //again.style.display = 'block';
   roll.style.display = 'none';
-  mat.style.display = 'none';
+  mat.style.visibility = 'hidden';
   held.style.display = 'none';
   //header.style.display = "block";
 }
@@ -97,7 +97,7 @@ function selectPlayer(evt) {
     playerCount = evt.target.innerHTML;
   }
   mat.innerHTML = "";
-  mat.style.display = 'block';
+  mat.style.visibility = 'visible';
   scores.innerHTML = "<tr><th>Player</th><th>Score</th></tr>";
   currentPlayer = 0;
   players = [];
