@@ -36,9 +36,7 @@ function playerRoll(evt) {
   }
   else {
     let roll = players[currentPlayer].roll();
-    let rollHtml = roll.map(x => `<button value=${x} class='diceButton'>${x}</button>`).join('');
-    
-    //rollADie({element: dietest, numberOfDice: roll.length, values: roll, callback: diceCallback, delay: 1000000});
+    let rollHtml = roll.map(x => `<button value=${x} class='diceButton'>${x}</button>`).join('');    
     mat.innerHTML = rollHtml;
     let rolledDice = document.getElementsByClassName("diceButton");
     for (var i = 0; i < rolledDice.length; i++) {
