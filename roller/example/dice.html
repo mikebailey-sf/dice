@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .block {
+      display: flex;
+      position: relative;
+      justify-content: center;
+    }
+
+    .box {
+      width: 300px;
+      border: 1px solid black;
+      text-align: center;
+      height: 300px;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body class="block">
+
+  <div class="box" id="dice-box1">
+    <div>
+      Number of Dice to use
+      <input id="number1" type="number" value=2>
+      <button onclick="rollDiceWithoutValues()">roll</button>
+    </div>
+  </div>
+
+  <div class="box" id="dice-box2">
+    <div>
+      <span>
+        <label>Number of Dice to use</label>
+        <input id="number2" type="number" value=2>
+      </span>
+      <span>
+        <label>Values</label>
+        <input id="values2" type="text" value='2,3'>
+        <button onclick="rollDiceWithValues()">roll</button>
+      </span>
+    </div>
+  </div>
+
+  <script src="../dist/roll-a-die.js"></script>
+  <script>
+    function response(res) {
+      // returns an array of the values from the dice
+      console.log(res)
+    }
+    function rollDiceWithoutValues() {
+      const element = document.getElementById('dice-box1');
+      const numberOfDice = +document.getElementById('number1').value;
+      const options = {
+        element, // element to display the animated dice in.
+        numberOfDice, // number of dice to use 
+        callback: response
+      }
+      rollADie(options);
+    }
+
+    function rollDiceWithValues() {
+      const element = document.getElementById('dice-box2');
+      const numberOfDice = +document.getElementById('number2').value;
+      const valuesToThrow = document.getElementById('values2')
+        .value.split(',').map(val => Number(val));
+      const options = {
+        element, // element to display the animated dice in.
+        numberOfDice, // number of dice to use 
+        values: valuesToThrow, // values to throw. When provided, overides library generated values. Optional.
+        callback: response
+      }
+      rollADie(options);
+    }
+  </script>
+</body>
+
+</html>

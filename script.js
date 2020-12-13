@@ -6,6 +6,7 @@ let players = [];
 /*----- cached element references -----*/
 let header = document.getElementById("header");
 let roller = document.getElementById("roller");
+let dietest = document.getElementById("dietest");
 let rollButton = document.getElementById("roll");
 let mat = document.getElementById("mat");
 let held = document.getElementById("held");
@@ -25,6 +26,9 @@ function init() {
 
 }
 
+function diceCallback(values){
+}
+
 function playerRoll(evt) {
   rollButton.disabled = true;
   if (players[currentPlayer].dice.length == 5){
@@ -33,6 +37,8 @@ function playerRoll(evt) {
   else {
     let roll = players[currentPlayer].roll();
     let rollHtml = roll.map(x => `<button value=${x} class='diceButton'>${x}</button>`).join('');
+    
+    //rollADie({element: dietest, numberOfDice: roll.length, values: roll, callback: diceCallback, delay: 1000000});
     mat.innerHTML = rollHtml;
     let rolledDice = document.getElementsByClassName("diceButton");
     for (var i = 0; i < rolledDice.length; i++) {
@@ -52,7 +58,7 @@ function topsOrBottoms(){
 
 function newRound(){
   if (winner(players)){
-    playerPrompt.innerHTML = `Player ${winner(players)[0]} Wins with ${winner(players)[1]}!!<br>`;
+    playerPrompt.innerHTML = `Player ${winner(players)[0]} Wins with ${winner(players)[1]}<br>`;
   } else {
     playerPrompt.innerHTML = 'No one qualified...';
   }
@@ -72,7 +78,8 @@ function saveDice(evt) {
   players[currentPlayer].taken = true;
   players[currentPlayer].dice.push(parseInt(evt.target.value));
   if (players[currentPlayer].dice.length == 6) {
-    document.getElementById(`score${currentPlayer}`).innerHTML = `${players[currentPlayer].isDone()}<br>${players[currentPlayer].dice.join(' - ')}`;
+    document.getElementById(`score${currentPlayer}`).innerHTML = `${players[currentPlayer].dice.join(' - ')}`;
+    document.getElementById(`total${currentPlayer}`).innerHTML = `${players[currentPlayer].isDone()}`;
     //document.getElementById(`score${currentPlayer}`).insertAdjacentHTML('beforeend', `: ${players[currentPlayer].dice}`);
     currentPlayer++;
     //If round is over
@@ -88,7 +95,7 @@ function saveDice(evt) {
   if(currentPlayer < players.length) {
     let scoreUpdate = document.getElementById(`score${currentPlayer}`);
     scoreUpdate.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
-    held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
+    //held.innerHTML = players[currentPlayer].dice.map(String).join(' - ');
   }
 }
 
@@ -98,14 +105,14 @@ function selectPlayer(evt) {
   }
   mat.innerHTML = "";
   mat.style.visibility = 'visible';
-  scores.innerHTML = "<tr><th>Player</th><th>Score</th></tr>";
+  scores.innerHTML = "<tr><th class='score-player'>Player</th><th class='score-dice'>Dice</th><th class='score-total'>Total</th></tr>";
   currentPlayer = 0;
   players = [];
   for (let i=0; i<playerCount; i++){
     players.push(new Player(i));
   }
   for (let i=0; i<playerCount; i++){
-    scores.insertAdjacentHTML('beforeend', `<tr><td>${i+1}</td><td id='score${i}'></td></tr>`);
+    scores.insertAdjacentHTML('beforeend', `<tr><td>${i+1}</td><td id='score${i}'></td><td id='total${i}'></td></tr>`);
   }
   header.style.display = 'none';
   //header.style.visibility = 'hidden';

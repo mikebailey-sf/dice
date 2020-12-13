@@ -1,11 +1,29 @@
-#wrapper, #scores {
+#wrapper {
   margin: 0 auto;
   width: 80%; 
   text-align: center;
 }
 
+#bartop{
+  height: 200px;
+  border: 1px solid black;
+}
+
+table {
+  border: 1px solid black;
+  width: 100%;
+}
+
 #mat {
   height: 40px;
+}
+
+#dietest{
+  height:200px;
+}
+
+#roller{
+  height: 20px;
 }
 
 .center {
@@ -26,5 +44,14 @@
 
 #banner, #header, #instruction, td {
   text-align: center;
+  border: 1px solid black;
+
 }
 
+.score-player{
+  width: 10%;
+}
+
+.score-dice {
+  width: 70%;
+}

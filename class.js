@@ -44,7 +44,7 @@ class Player {
     if (this.isQualified()) {
       return this.total();
     } else {
-      return ('Not Qualified');
+      return ('NQ');
     }
   }
 }
